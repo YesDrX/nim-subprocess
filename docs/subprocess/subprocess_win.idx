@@ -1,0 +1,20 @@
+nimTitle	subprocess_win	subprocess/subprocess_win.html	module src/subprocess/subprocess_win		0
+nim	ProcessPID	subprocess/subprocess_win.html#ProcessPID	type ProcessPID		11
+nim	IOHandle	subprocess/subprocess_win.html#IOHandle	type IOHandle		12
+nim	SubprocessOptions	subprocess/subprocess_win.html#SubprocessOptions	object SubprocessOptions		15
+nim	SubprocessObj	subprocess/subprocess_win.html#SubprocessObj	object SubprocessObj		23
+nim	Subprocess	subprocess/subprocess_win.html#Subprocess	type Subprocess		31
+nim	`=destroy`	subprocess/subprocess_win.html#=destroy,SubprocessObj	proc `=destroy`(subprocess: var SubprocessObj)		35
+nim	startSubprocess	subprocess/subprocess_win.html#startSubprocess,string,openArray[string],SubprocessOptions	proc startSubprocess(command: string; args: openArray[string];\n                options: SubprocessOptions): Subprocess		152
+nim	isRunning	subprocess/subprocess_win.html#isRunning,Subprocess	proc isRunning(subprocess: Subprocess): bool		280
+nim	wait	subprocess/subprocess_win.html#wait,Subprocess	proc wait(subprocess: Subprocess): int		297
+nim	write	subprocess/subprocess_win.html#write,Subprocess,string	proc write(subprocess: Subprocess; data: string): int		309
+nim	hasDataStdout	subprocess/subprocess_win.html#hasDataStdout,Subprocess	proc hasDataStdout(subprocess: Subprocess): bool		334
+nim	hasDataStderr	subprocess/subprocess_win.html#hasDataStderr,Subprocess	proc hasDataStderr(subprocess: Subprocess): bool		349
+nim	readStdout	subprocess/subprocess_win.html#readStdout,Subprocess,int	proc readStdout(subprocess: Subprocess; timeoutMs: int = -1): string		364
+nim	readStderr	subprocess/subprocess_win.html#readStderr,Subprocess,int	proc readStderr(subprocess: Subprocess; timeoutMs: int = -1): string		409
+nim	readAllStdout	subprocess/subprocess_win.html#readAllStdout,Subprocess,int	proc readAllStdout(subprocess: Subprocess; timeoutMs: int = -1): string		450
+nim	readAllStderr	subprocess/subprocess_win.html#readAllStderr,Subprocess,int	proc readAllStderr(subprocess: Subprocess; timeoutMs: int = -1): string		478
+nim	closeStdin	subprocess/subprocess_win.html#closeStdin,Subprocess	proc closeStdin(subprocess: Subprocess)		506
+nim	terminate	subprocess/subprocess_win.html#terminate,Subprocess,bool	proc terminate(subprocess: Subprocess; graceful: bool = true)		514
+nim	close	subprocess/subprocess_win.html#close,Subprocess	proc close(subprocess: Subprocess)		527

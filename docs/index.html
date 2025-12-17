@@ -25,18 +25,24 @@
   <div class="document" id="documentId">
     <div class="container">
       <h1 class="title">Index</h1>
-      Modules: <a href="subprocess.html">subprocess</a>, <a href="subprocess/subprocess_posix.html">subprocess/subprocess_posix</a>.<br/><p /><h2>API symbols</h2>
+      Modules: <a href="subprocess.html">subprocess</a>, <a href="subprocess/subprocess_posix.html">subprocess/subprocess_posix</a>, <a href="subprocess/subprocess_win.html">subprocess/subprocess_win</a>.<br/><p /><h2>API symbols</h2>
 <dl><dt><a name="%60%3Ddestroy%60" href="#%60%3Ddestroy%60"><span>`=destroy`:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc `=destroy`(subprocess: var SubprocessObj)" href="subprocess/subprocess_posix.html#%3Ddestroy%2CSubprocessObj">subprocess_posix: proc `=destroy`(subprocess: var SubprocessObj)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc `=destroy`(subprocess: var SubprocessObj)" href="subprocess/subprocess_win.html#%3Ddestroy%2CSubprocessObj">subprocess_win: proc `=destroy`(subprocess: var SubprocessObj)</a></li>
           </ul></dd>
 <dt><a name="close" href="#close"><span>close:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc close(subprocess: Subprocess)" href="subprocess/subprocess_posix.html#close%2CSubprocess">subprocess_posix: proc close(subprocess: Subprocess)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc close(subprocess: Subprocess)" href="subprocess/subprocess_win.html#close%2CSubprocess">subprocess_win: proc close(subprocess: Subprocess)</a></li>
           </ul></dd>
 <dt><a name="closeStdin" href="#closeStdin"><span>closeStdin:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc closeStdin(subprocess: Subprocess)" href="subprocess/subprocess_posix.html#closeStdin%2CSubprocess">subprocess_posix: proc closeStdin(subprocess: Subprocess)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc closeStdin(subprocess: Subprocess)" href="subprocess/subprocess_win.html#closeStdin%2CSubprocess">subprocess_win: proc closeStdin(subprocess: Subprocess)</a></li>
           </ul></dd>
 <dt><a name="Handle" href="#Handle"><span>Handle:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
@@ -45,74 +51,108 @@
 <dt><a name="hasDataStderr" href="#hasDataStderr"><span>hasDataStderr:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc hasDataStderr(subprocess: Subprocess): bool" href="subprocess/subprocess_posix.html#hasDataStderr%2CSubprocess">subprocess_posix: proc hasDataStderr(subprocess: Subprocess): bool</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc hasDataStderr(subprocess: Subprocess): bool" href="subprocess/subprocess_win.html#hasDataStderr%2CSubprocess">subprocess_win: proc hasDataStderr(subprocess: Subprocess): bool</a></li>
           </ul></dd>
 <dt><a name="hasDataStdout" href="#hasDataStdout"><span>hasDataStdout:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc hasDataStdout(subprocess: Subprocess): bool" href="subprocess/subprocess_posix.html#hasDataStdout%2CSubprocess">subprocess_posix: proc hasDataStdout(subprocess: Subprocess): bool</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc hasDataStdout(subprocess: Subprocess): bool" href="subprocess/subprocess_win.html#hasDataStdout%2CSubprocess">subprocess_win: proc hasDataStdout(subprocess: Subprocess): bool</a></li>
           </ul></dd>
 <dt><a name="IOHandle" href="#IOHandle"><span>IOHandle:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: type IOHandle" href="subprocess/subprocess_posix.html#IOHandle">subprocess_posix: type IOHandle</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: type IOHandle" href="subprocess/subprocess_win.html#IOHandle">subprocess_win: type IOHandle</a></li>
           </ul></dd>
 <dt><a name="isRunning" href="#isRunning"><span>isRunning:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc isRunning(subprocess: Subprocess): bool" href="subprocess/subprocess_posix.html#isRunning%2CSubprocess">subprocess_posix: proc isRunning(subprocess: Subprocess): bool</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc isRunning(subprocess: Subprocess): bool" href="subprocess/subprocess_win.html#isRunning%2CSubprocess">subprocess_win: proc isRunning(subprocess: Subprocess): bool</a></li>
           </ul></dd>
 <dt><a name="ProcessPID" href="#ProcessPID"><span>ProcessPID:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: type ProcessPID" href="subprocess/subprocess_posix.html#ProcessPID">subprocess_posix: type ProcessPID</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: type ProcessPID" href="subprocess/subprocess_win.html#ProcessPID">subprocess_win: type ProcessPID</a></li>
           </ul></dd>
 <dt><a name="readAllStderr" href="#readAllStderr"><span>readAllStderr:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc readAllStderr(subprocess: Subprocess; timeoutMs: int = -1): string" href="subprocess/subprocess_posix.html#readAllStderr%2CSubprocess%2Cint">subprocess_posix: proc readAllStderr(subprocess: Subprocess; timeoutMs: int = -1): string</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc readAllStderr(subprocess: Subprocess; timeoutMs: int = -1): string" href="subprocess/subprocess_win.html#readAllStderr%2CSubprocess%2Cint">subprocess_win: proc readAllStderr(subprocess: Subprocess; timeoutMs: int = -1): string</a></li>
           </ul></dd>
 <dt><a name="readAllStdout" href="#readAllStdout"><span>readAllStdout:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc readAllStdout(subprocess: Subprocess; timeoutMs: int = -1): string" href="subprocess/subprocess_posix.html#readAllStdout%2CSubprocess%2Cint">subprocess_posix: proc readAllStdout(subprocess: Subprocess; timeoutMs: int = -1): string</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc readAllStdout(subprocess: Subprocess; timeoutMs: int = -1): string" href="subprocess/subprocess_win.html#readAllStdout%2CSubprocess%2Cint">subprocess_win: proc readAllStdout(subprocess: Subprocess; timeoutMs: int = -1): string</a></li>
           </ul></dd>
 <dt><a name="readStderr" href="#readStderr"><span>readStderr:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc readStderr(subprocess: Subprocess; timeoutMs: int = -1): string" href="subprocess/subprocess_posix.html#readStderr%2CSubprocess%2Cint">subprocess_posix: proc readStderr(subprocess: Subprocess; timeoutMs: int = -1): string</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc readStderr(subprocess: Subprocess; timeoutMs: int = -1): string" href="subprocess/subprocess_win.html#readStderr%2CSubprocess%2Cint">subprocess_win: proc readStderr(subprocess: Subprocess; timeoutMs: int = -1): string</a></li>
           </ul></dd>
 <dt><a name="readStdout" href="#readStdout"><span>readStdout:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc readStdout(subprocess: Subprocess; timeoutMs: int = -1): string" href="subprocess/subprocess_posix.html#readStdout%2CSubprocess%2Cint">subprocess_posix: proc readStdout(subprocess: Subprocess; timeoutMs: int = -1): string</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc readStdout(subprocess: Subprocess; timeoutMs: int = -1): string" href="subprocess/subprocess_win.html#readStdout%2CSubprocess%2Cint">subprocess_win: proc readStdout(subprocess: Subprocess; timeoutMs: int = -1): string</a></li>
           </ul></dd>
 <dt><a name="startSubprocess" href="#startSubprocess"><span>startSubprocess:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc startSubprocess(command: string; args: openArray[string];
                 options: SubprocessOptions): Subprocess" href="subprocess/subprocess_posix.html#startSubprocess%2Cstring%2CopenArray%5Bstring%5D%2CSubprocessOptions">subprocess_posix: proc startSubprocess(command: string; args: openArray[string];
                 options: SubprocessOptions): Subprocess</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc startSubprocess(command: string; args: openArray[string];
+                options: SubprocessOptions): Subprocess" href="subprocess/subprocess_win.html#startSubprocess%2Cstring%2CopenArray%5Bstring%5D%2CSubprocessOptions">subprocess_win: proc startSubprocess(command: string; args: openArray[string];
+                options: SubprocessOptions): Subprocess</a></li>
           </ul></dd>
 <dt><a name="Subprocess" href="#Subprocess"><span>Subprocess:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: type Subprocess" href="subprocess/subprocess_posix.html#Subprocess">subprocess_posix: type Subprocess</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: type Subprocess" href="subprocess/subprocess_win.html#Subprocess">subprocess_win: type Subprocess</a></li>
           </ul></dd>
 <dt><a name="SubprocessObj" href="#SubprocessObj"><span>SubprocessObj:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: object SubprocessObj" href="subprocess/subprocess_posix.html#SubprocessObj">subprocess_posix: object SubprocessObj</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: object SubprocessObj" href="subprocess/subprocess_win.html#SubprocessObj">subprocess_win: object SubprocessObj</a></li>
           </ul></dd>
 <dt><a name="SubprocessOptions" href="#SubprocessOptions"><span>SubprocessOptions:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: object SubprocessOptions" href="subprocess/subprocess_posix.html#SubprocessOptions">subprocess_posix: object SubprocessOptions</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: object SubprocessOptions" href="subprocess/subprocess_win.html#SubprocessOptions">subprocess_win: object SubprocessOptions</a></li>
           </ul></dd>
 <dt><a name="terminate" href="#terminate"><span>terminate:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc terminate(subprocess: Subprocess; graceful: bool = true)" href="subprocess/subprocess_posix.html#terminate%2CSubprocess%2Cbool">subprocess_posix: proc terminate(subprocess: Subprocess; graceful: bool = true)</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc terminate(subprocess: Subprocess; graceful: bool = true)" href="subprocess/subprocess_win.html#terminate%2CSubprocess%2Cbool">subprocess_win: proc terminate(subprocess: Subprocess; graceful: bool = true)</a></li>
           </ul></dd>
 <dt><a name="wait" href="#wait"><span>wait:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc wait(subprocess: Subprocess): int" href="subprocess/subprocess_posix.html#wait%2CSubprocess">subprocess_posix: proc wait(subprocess: Subprocess): int</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc wait(subprocess: Subprocess): int" href="subprocess/subprocess_win.html#wait%2CSubprocess">subprocess_win: proc wait(subprocess: Subprocess): int</a></li>
           </ul></dd>
 <dt><a name="write" href="#write"><span>write:</span></a></dt><dd><ul class="simple">
 <li><a class="reference external"
           data-doc-search-tag="subprocess_posix: proc write(subprocess: Subprocess; data: string): int" href="subprocess/subprocess_posix.html#write%2CSubprocess%2Cstring">subprocess_posix: proc write(subprocess: Subprocess; data: string): int</a></li>
+          <li><a class="reference external"
+          data-doc-search-tag="subprocess_win: proc write(subprocess: Subprocess; data: string): int" href="subprocess/subprocess_win.html#write%2CSubprocess%2Cstring">subprocess_win: proc write(subprocess: Subprocess; data: string): int</a></li>
           </ul></dd>
 </dl>
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-17 03:39:47 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-17 03:48:19 UTC</small>
       </div>
     </div>
   </div>
