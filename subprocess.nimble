@@ -1,4 +1,4 @@
-version       = "0.3.1"
+version       = "0.3.2"
 author        = "YesDrX"
 description   = "A subprocess module"
 license       = "MIT"
