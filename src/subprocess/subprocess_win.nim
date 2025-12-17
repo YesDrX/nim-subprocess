@@ -36,21 +36,24 @@ proc closeHandleSafe(h: var winlean.Handle)
 
 proc `=destroy`*(subprocess: var SubprocessObj) =
     ## Destructor to clean up resources
-    if subprocess.process_handle != 0:
+    try:
         if subprocess.process_handle != 0:
-            var code: int32
-            if getExitCodeProcess(subprocess.process_handle, code) != 0:
-                if code == STILL_ACTIVE:
-                    discard terminateProcess(subprocess.process_handle, 1)
-        closeHandleSafe(subprocess.process_handle)
-        subprocess.process_handle = 0
-    
-    var hIn = subprocess.stdin
-    closeHandleSafe(hIn)
-    var hOut = subprocess.stdout
-    closeHandleSafe(hOut)
-    var hErr = subprocess.stderr
-    closeHandleSafe(hErr)
+            if subprocess.process_handle != 0:
+                var code: int32
+                if getExitCodeProcess(subprocess.process_handle, code) != 0:
+                    if code == STILL_ACTIVE:
+                        discard terminateProcess(subprocess.process_handle, 1)
+            closeHandleSafe(subprocess.process_handle)
+            subprocess.process_handle = 0
+        
+        var hIn = subprocess.stdin
+        closeHandleSafe(hIn)
+        var hOut = subprocess.stdout
+        closeHandleSafe(hOut)
+        var hErr = subprocess.stderr
+        closeHandleSafe(hErr)
+    except:
+        discard  # Ignore errors in destructor
 
 # Winlean defines STARTUPINFO with cstrings, so it is actually STARTUPINFOA.
 # Winlean exposes CreateProcessW, which mismatches the struct. 

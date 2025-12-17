@@ -137,11 +137,15 @@ suite "Subprocess Library Tests":
     var opts = SubprocessOptions(useStdout: true)
     let process = startSubprocess("python", ["-c", script], opts)
     
-    # Give process time to write
-    sleep(100)
+    # Wait for data to become available (retry loop for timing robustness)
+    var hasData = false
+    for i in 0..<20:  # Try for up to 2 seconds (20 * 100ms)
+      sleep(100)
+      if process.hasDataStdout():
+        hasData = true
+        break
     
-    # Check if data is available
-    check process.hasDataStdout() == true
+    check hasData == true
     
     # Read the data
     let output = process.readStdout()
