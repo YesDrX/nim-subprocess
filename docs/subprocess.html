@@ -126,7 +126,41 @@
     <span class="Keyword">let</span> <span class="Identifier">process</span> <span class="Operator">=</span> <span class="Identifier">startSubprocess</span><span class="Punctuation">(</span><span class="StringLit">&quot;sleep&quot;</span><span class="Punctuation">,</span> <span class="Punctuation">[</span><span class="StringLit">&quot;10&quot;</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Identifier">opts</span><span class="Punctuation">)</span>
     <span class="Identifier">doAssert</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">isRunning</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
     <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">terminate</span><span class="Punctuation">(</span><span class="Identifier">graceful</span> <span class="Operator">=</span> <span class="Identifier">true</span><span class="Punctuation">)</span>  <span class="Comment">## Sends SIGTERM first</span>
-    <span class="Identifier">doAssert</span> <span class="Keyword">not</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">isRunning</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre></p>
+    <span class="Identifier">doAssert</span> <span class="Keyword">not</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">isRunning</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+
+<span class="Comment">## Example 6: Byte frame protocol - read exact byte counts</span>
+<span class="Keyword">block</span><span class="Punctuation">:</span>
+  <span class="Comment"># For protocols with format: [4-byte length][payload]</span>
+  <span class="Keyword">proc</span> <span class="Identifier">readFrame</span><span class="Punctuation">(</span><span class="Identifier">process</span><span class="Punctuation">:</span> <span class="Identifier">Subprocess</span><span class="Punctuation">)</span><span class="Punctuation">:</span> <span class="Identifier">string</span> <span class="Operator">=</span>
+    <span class="Comment"># Read exactly 4 bytes for the message length</span>
+    <span class="Keyword">let</span> <span class="Identifier">lengthBytes</span> <span class="Operator">=</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">readStdout</span><span class="Punctuation">(</span><span class="Identifier">numBytesToRead</span> <span class="Operator">=</span> <span class="DecNumber">4</span><span class="Punctuation">)</span>
+    <span class="Keyword">if</span> <span class="Identifier">lengthBytes</span><span class="Operator">.</span><span class="Identifier">len</span> <span class="Operator">!=</span> <span class="DecNumber">4</span><span class="Punctuation">:</span>
+      <span class="Keyword">return</span> <span class="StringLit">&quot;&quot;</span> <span class="Comment"># Not enough data</span>
+    
+    <span class="Comment"># Convert the 4 bytes to an integer (little-endian)</span>
+    <span class="Keyword">var</span> <span class="Identifier">msgLength</span><span class="Punctuation">:</span> <span class="Identifier">int</span>
+    <span class="Identifier">copyMem</span><span class="Punctuation">(</span><span class="Keyword">addr</span> <span class="Identifier">msgLength</span><span class="Punctuation">,</span> <span class="Identifier">lengthBytes</span><span class="Punctuation">[</span><span class="DecNumber">0</span><span class="Punctuation">]</span><span class="Operator">.</span><span class="Identifier">unsafeAddr</span><span class="Punctuation">,</span> <span class="DecNumber">4</span><span class="Punctuation">)</span>
+    
+    <span class="Comment"># Read exactly msgLength bytes for the payload</span>
+    <span class="Keyword">let</span> <span class="Identifier">payload</span> <span class="Operator">=</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">readStdout</span><span class="Punctuation">(</span><span class="Identifier">numBytesToRead</span> <span class="Operator">=</span> <span class="Identifier">msgLength</span><span class="Punctuation">)</span>
+    <span class="Keyword">if</span> <span class="Identifier">payload</span><span class="Operator">.</span><span class="Identifier">len</span> <span class="Operator">!=</span> <span class="Identifier">msgLength</span><span class="Punctuation">:</span>
+      <span class="Keyword">return</span> <span class="StringLit">&quot;&quot;</span> <span class="Comment"># Incomplete payload</span>
+    
+    <span class="Keyword">return</span> <span class="Identifier">payload</span>
+  
+  <span class="Comment"># Usage with a subprocess that outputs framed data</span>
+  <span class="Comment"># var opts = SubprocessOptions(useStdout: true)</span>
+  <span class="Comment"># let process = startSubprocess(&quot;frame_protocol_app&quot;, [], opts)</span>
+  <span class="Comment">#</span>
+  <span class="Comment"># while process.isRunning() or not process.isStdoutEof():</span>
+  <span class="Comment">#   let frame = readFrame(process)</span>
+  <span class="Comment">#   if frame.len &gt; 0:</span>
+  <span class="Comment">#     echo &quot;Received frame: &quot;, frame</span>
+  <span class="Comment">#   else:</span>
+  <span class="Comment">#     # Small delay to prevent busy looping</span>
+  <span class="Comment">#     sleep(10)</span>
+  <span class="Comment">#</span>
+  <span class="Comment"># process.close()</span></pre></p>
     <div class="section" id="6">
   <h1><a class="toc-backref" href="#6">Imports</a></h1>
   <dl class="item">
@@ -136,7 +170,7 @@
 <div class="section" id="19">
   <h1><a class="toc-backref" href="#19">Exports</a></h1>
   <dl class="item">
-    <a href="subprocess/subprocess_win.html#hasDataStdout,Subprocess"><span class="Identifier">hasDataStdout</span></a>, <a href="subprocess/subprocess_win.html#terminate,Subprocess,bool"><span class="Identifier">terminate</span></a>, <a href="subprocess/subprocess_win.html#readAllStdout,Subprocess,int"><span class="Identifier">readAllStdout</span></a>, <a href="subprocess/subprocess_win.html#close,Subprocess"><span class="Identifier">close</span></a>, <a href="subprocess/subprocess_win.html#isStdoutEof,Subprocess"><span class="Identifier">isStdoutEof</span></a>, <a href="subprocess/subprocess_win.html#readStdout,Subprocess,int"><span class="Identifier">readStdout</span></a>, <a href="subprocess/subprocess_win.html#IOHandle"><span class="Identifier">IOHandle</span></a>, <a href="subprocess/subprocess_win.html#isStderrEof,Subprocess"><span class="Identifier">isStderrEof</span></a>, <a href="subprocess/subprocess_win.html#closeStdin,Subprocess"><span class="Identifier">closeStdin</span></a>, <a href="subprocess/subprocess_win.html#SubprocessOptions"><span class="Identifier">SubprocessOptions</span></a>, <a href="subprocess/subprocess_win.html#ProcessPID"><span class="Identifier">ProcessPID</span></a>, <a href="subprocess/subprocess_win.html#readStderr,Subprocess,int"><span class="Identifier">readStderr</span></a>, <a href="subprocess/subprocess_win.html#SubprocessObj"><span class="Identifier">SubprocessObj</span></a>, <a href="subprocess/subprocess_win.html#write,Subprocess,string"><span class="Identifier">write</span></a>, <a href="subprocess/subprocess_win.html#isRunning,Subprocess"><span class="Identifier">isRunning</span></a>, <a href="subprocess/subprocess_win.html#Subprocess"><span class="Identifier">Subprocess</span></a>, <a href="subprocess/subprocess_win.html#wait,Subprocess"><span class="Identifier">wait</span></a>, <a href="subprocess/subprocess_win.html#=destroy,SubprocessObj"><span class="Identifier">=destroy</span></a>, <a href="subprocess/subprocess_win.html#startSubprocess,string,openArray[string],SubprocessOptions"><span class="Identifier">startSubprocess</span></a>, <a href="subprocess/subprocess_win.html#hasDataStderr,Subprocess"><span class="Identifier">hasDataStderr</span></a>, <a href="subprocess/subprocess_win.html#readAllStderr,Subprocess,int"><span class="Identifier">readAllStderr</span></a>
+    <a href="subprocess/subprocess_win.html#hasDataStdout,Subprocess"><span class="Identifier">hasDataStdout</span></a>, <a href="subprocess/subprocess_win.html#terminate,Subprocess,bool"><span class="Identifier">terminate</span></a>, <a href="subprocess/subprocess_win.html#readAllStdout,Subprocess,int"><span class="Identifier">readAllStdout</span></a>, <a href="subprocess/subprocess_win.html#close,Subprocess"><span class="Identifier">close</span></a>, <a href="subprocess/subprocess_win.html#isStdoutEof,Subprocess"><span class="Identifier">isStdoutEof</span></a>, <a href="subprocess/subprocess_win.html#readStdout,Subprocess,int,int"><span class="Identifier">readStdout</span></a>, <a href="subprocess/subprocess_win.html#IOHandle"><span class="Identifier">IOHandle</span></a>, <a href="subprocess/subprocess_win.html#isStderrEof,Subprocess"><span class="Identifier">isStderrEof</span></a>, <a href="subprocess/subprocess_win.html#closeStdin,Subprocess"><span class="Identifier">closeStdin</span></a>, <a href="subprocess/subprocess_win.html#SubprocessOptions"><span class="Identifier">SubprocessOptions</span></a>, <a href="subprocess/subprocess_win.html#ProcessPID"><span class="Identifier">ProcessPID</span></a>, <a href="subprocess/subprocess_win.html#readStderr,Subprocess,int,int"><span class="Identifier">readStderr</span></a>, <a href="subprocess/subprocess_win.html#SubprocessObj"><span class="Identifier">SubprocessObj</span></a>, <a href="subprocess/subprocess_win.html#write,Subprocess,string"><span class="Identifier">write</span></a>, <a href="subprocess/subprocess_win.html#isRunning,Subprocess"><span class="Identifier">isRunning</span></a>, <a href="subprocess/subprocess_win.html#Subprocess"><span class="Identifier">Subprocess</span></a>, <a href="subprocess/subprocess_win.html#wait,Subprocess"><span class="Identifier">wait</span></a>, <a href="subprocess/subprocess_win.html#=destroy,SubprocessObj"><span class="Identifier">=destroy</span></a>, <a href="subprocess/subprocess_win.html#startSubprocess,string,openArray[string],SubprocessOptions"><span class="Identifier">startSubprocess</span></a>, <a href="subprocess/subprocess_win.html#hasDataStderr,Subprocess"><span class="Identifier">hasDataStderr</span></a>, <a href="subprocess/subprocess_win.html#readAllStderr,Subprocess,int"><span class="Identifier">readAllStderr</span></a>
   </dl>
 </div>
 
@@ -146,7 +180,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-17 14:02:05 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-17 19:18:19 UTC</small>
       </div>
     </div>
   </div>

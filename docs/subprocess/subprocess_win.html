@@ -123,11 +123,11 @@
 
 </ul>
 <ul class="simple nested-toc-section">readStderr
-  <li><a class="reference" href="#readStderr%2CSubprocess%2Cint" title="readStderr(subprocess: Subprocess; timeoutMs: int = -1): string">readStderr(subprocess: Subprocess; timeoutMs: int = -1): string</a></li>
+  <li><a class="reference" href="#readStderr%2CSubprocess%2Cint%2Cint" title="readStderr(subprocess: Subprocess; numBytesToRead: int = -1; timeoutMs: int = -1): string">readStderr(subprocess: Subprocess; numBytesToRead: int = -1; timeoutMs: int = -1): string</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">readStdout
-  <li><a class="reference" href="#readStdout%2CSubprocess%2Cint" title="readStdout(subprocess: Subprocess; timeoutMs: int = -1): string">readStdout(subprocess: Subprocess; timeoutMs: int = -1): string</a></li>
+  <li><a class="reference" href="#readStdout%2CSubprocess%2Cint%2Cint" title="readStdout(subprocess: Subprocess; numBytesToRead: int = -1; timeoutMs: int = -1): string">readStdout(subprocess: Subprocess; numBytesToRead: int = -1; timeoutMs: int = -1): string</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">startSubprocess
@@ -260,8 +260,8 @@
     <p>Close subprocess and clean up all resources.</p>
 <p>Terminates the process if still running, then closes all handles.</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L565" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L565" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L578" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L578" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -275,8 +275,8 @@
     <p>Close the stdin pipe to the subprocess.</p>
 <p>This signals EOF to the subprocess.</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L544" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L544" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L557" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L557" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -292,8 +292,8 @@
 <p>Uses PeekNamedPipe for non-blocking check.</p>
 <p>Returns: true if data is available, false otherwise</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L353" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L353" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L356" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L356" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -309,8 +309,8 @@
 <p>Uses PeekNamedPipe for non-blocking check.</p>
 <p>Returns: true if data is available, false otherwise</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L338" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L338" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L341" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L341" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -325,8 +325,8 @@
 <p>Uses GetExitCodeProcess to check process status.</p>
 <p>Returns: true if the process is still running, false otherwise</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L284" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L284" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L287" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L287" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -342,8 +342,8 @@
 <p>Returns true if a previous read operation encountered EOF, indicating the subprocess has closed its stderr.</p>
 <p>Returns: true if stderr has reached EOF, false otherwise</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L386" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L386" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L389" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L389" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -364,8 +364,8 @@
   <span class="Keyword">if</span> <span class="Identifier">data</span><span class="Operator">.</span><span class="Identifier">len</span> <span class="Operator">&gt;</span> <span class="DecNumber">0</span><span class="Punctuation">:</span>
     <span class="Identifier">echo</span> <span class="Identifier">data</span></pre></p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L368" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L368" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L371" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L371" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -383,8 +383,8 @@
 <pre>-1 means no timeout</pre>
 <p>Returns: Concatenated string of all data read</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L516" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L516" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L529" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L529" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -402,45 +402,47 @@
 <pre>-1 means no timeout</pre>
 <p>Returns: Concatenated string of all data read</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L488" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L488" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L501" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L501" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
 
 </div>
 <div id="readStderr-procs-all">
-  <div id="readStderr,Subprocess,int">
-  <dt><pre><span class="Keyword">proc</span> <a href="#readStderr%2CSubprocess%2Cint"><span class="Identifier">readStderr</span></a><span class="Other">(</span><span class="Identifier">subprocess</span><span class="Other">:</span> <a href="subprocess_win.html#Subprocess"><span class="Identifier">Subprocess</span></a><span class="Other">;</span> <span class="Identifier">timeoutMs</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">=</span> <span class="DecNumber">-1</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> {.
-    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <div id="readStderr,Subprocess,int,int">
+  <dt><pre><span class="Keyword">proc</span> <a href="#readStderr%2CSubprocess%2Cint%2Cint"><span class="Identifier">readStderr</span></a><span class="Other">(</span><span class="Identifier">subprocess</span><span class="Other">:</span> <a href="subprocess_win.html#Subprocess"><span class="Identifier">Subprocess</span></a><span class="Other">;</span> <span class="Identifier">numBytesToRead</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">=</span> <span class="DecNumber">-1</span><span class="Other">;</span>
+                <span class="Identifier">timeoutMs</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">=</span> <span class="DecNumber">-1</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
-    <p>Read from stderr with optional timeout.</p>
-<p>Reads up to 4096 bytes. For reading all data, use readAllStderr().</p>
-<p>Args: timeoutMs: Timeout in milliseconds. -1 means blocking</p>
+    <p>Read from stderr with optional byte count and timeout.</p>
+<p>Reads up to numBytesToRead bytes, or up to 4096 bytes if numBytesToRead is -1. For reading all data, use readAllStderr().</p>
+<p>Args: numBytesToRead: Number of bytes to read. -1 means read up to 4096 bytes timeoutMs: Timeout in milliseconds. -1 means blocking</p>
 <p>Returns: String with data read, or empty string if timeout/EOF/error</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L444" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L444" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L452" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L452" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
 
 </div>
 <div id="readStdout-procs-all">
-  <div id="readStdout,Subprocess,int">
-  <dt><pre><span class="Keyword">proc</span> <a href="#readStdout%2CSubprocess%2Cint"><span class="Identifier">readStdout</span></a><span class="Other">(</span><span class="Identifier">subprocess</span><span class="Other">:</span> <a href="subprocess_win.html#Subprocess"><span class="Identifier">Subprocess</span></a><span class="Other">;</span> <span class="Identifier">timeoutMs</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">=</span> <span class="DecNumber">-1</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> {.
-    <span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <div id="readStdout,Subprocess,int,int">
+  <dt><pre><span class="Keyword">proc</span> <a href="#readStdout%2CSubprocess%2Cint%2Cint"><span class="Identifier">readStdout</span></a><span class="Other">(</span><span class="Identifier">subprocess</span><span class="Other">:</span> <a href="subprocess_win.html#Subprocess"><span class="Identifier">Subprocess</span></a><span class="Other">;</span> <span class="Identifier">numBytesToRead</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">=</span> <span class="DecNumber">-1</span><span class="Other">;</span>
+                <span class="Identifier">timeoutMs</span><span class="Other">:</span> <span class="Identifier">int</span> <span class="Other">=</span> <span class="DecNumber">-1</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Identifier">TimeEffect</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
-    <p>Read from stdout with optional timeout.</p>
-<p>Reads up to 4096 bytes. For reading all data, use readAllStdout().</p>
-<p>Args: timeoutMs: Timeout in milliseconds. -1 means blocking</p>
+    <p>Read from stdout with optional byte count and timeout.</p>
+<p>Reads up to numBytesToRead bytes, or up to 4096 bytes if numBytesToRead is -1. For reading all data, use readAllStdout().</p>
+<p>Args: numBytesToRead: Number of bytes to read. -1 means read up to 4096 bytes timeoutMs: Timeout in milliseconds. -1 means blocking</p>
 <p>Returns: String with data read, or empty string if timeout/EOF/error</p>
 <p>Note: Uses polling with PeekNamedPipe since WaitForSingleObject doesn't work for anonymous pipes on Windows.</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L396" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L396" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L399" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L399" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -463,8 +465,8 @@
 <span class="Identifier">echo</span> <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">readAllStdout</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
 <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">close</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre></p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L154" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L154" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L157" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L157" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -480,8 +482,8 @@
 <p>Note: Windows doesn't have graceful termination like POSIX SIGTERM. This always uses TerminateProcess regardless of the graceful parameter.</p>
 <p>Args: graceful: Ignored on Windows (kept for API compatibility)</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L552" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L552" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L565" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L565" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -496,8 +498,8 @@
 <p>This is a blocking call using WaitForSingleObject.</p>
 <p>Returns: The exit code of the process</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L301" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L301" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L304" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L304" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -514,8 +516,8 @@
 <p>Args: data: The string data to write to stdin</p>
 <p>Returns: Number of bytes successfully written</p>
 
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L313" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L313" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/yesdrx/nim-subprocess/tree/version-2-2/src/subprocess/subprocess_win.nim#L316" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess/subprocess_win.nim#L316" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -531,7 +533,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-17 14:02:05 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-17 19:18:19 UTC</small>
       </div>
     </div>
   </div>

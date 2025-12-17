@@ -15,9 +15,9 @@ nim	hasDataStdout	subprocess/subprocess_posix.html#hasDataStdout,Subprocess	proc
 nim	hasDataStderr	subprocess/subprocess_posix.html#hasDataStderr,Subprocess	proc hasDataStderr(subprocess: Subprocess): bool		299
 nim	isStdoutEof	subprocess/subprocess_posix.html#isStdoutEof,Subprocess	proc isStdoutEof(subprocess: Subprocess): bool		314
 nim	isStderrEof	subprocess/subprocess_posix.html#isStderrEof,Subprocess	proc isStderrEof(subprocess: Subprocess): bool		332
-nim	readStdout	subprocess/subprocess_posix.html#readStdout,Subprocess,int	proc readStdout(subprocess: Subprocess; timeoutMs: int = -1): string		342
-nim	readStderr	subprocess/subprocess_posix.html#readStderr,Subprocess,int	proc readStderr(subprocess: Subprocess; timeoutMs: int = -1): string		385
-nim	readAllStdout	subprocess/subprocess_posix.html#readAllStdout,Subprocess,int	proc readAllStdout(subprocess: Subprocess; timeoutMs: int = -1): string		420
-nim	readAllStderr	subprocess/subprocess_posix.html#readAllStderr,Subprocess,int	proc readAllStderr(subprocess: Subprocess; timeoutMs: int = -1): string		454
-nim	terminate	subprocess/subprocess_posix.html#terminate,Subprocess,bool	proc terminate(subprocess: Subprocess; graceful: bool = true)		482
-nim	close	subprocess/subprocess_posix.html#close,Subprocess	proc close(subprocess: Subprocess)		518
+nim	readStdout	subprocess/subprocess_posix.html#readStdout,Subprocess,int,int	proc readStdout(subprocess: Subprocess; numBytesToRead: int = -1; timeoutMs: int = -1): string		342
+nim	readStderr	subprocess/subprocess_posix.html#readStderr,Subprocess,int,int	proc readStderr(subprocess: Subprocess; numBytesToRead: int = -1; timeoutMs: int = -1): string		393
+nim	readAllStdout	subprocess/subprocess_posix.html#readAllStdout,Subprocess,int	proc readAllStdout(subprocess: Subprocess; timeoutMs: int = -1): string		433
+nim	readAllStderr	subprocess/subprocess_posix.html#readAllStderr,Subprocess,int	proc readAllStderr(subprocess: Subprocess; timeoutMs: int = -1): string		467
+nim	terminate	subprocess/subprocess_posix.html#terminate,Subprocess,bool	proc terminate(subprocess: Subprocess; graceful: bool = true)		495
+nim	close	subprocess/subprocess_posix.html#close,Subprocess	proc close(subprocess: Subprocess)		531
