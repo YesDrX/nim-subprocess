@@ -326,7 +326,7 @@ process.close()
 
 ### Capture Both Stdout and Stderr
 
-``nim
+```nim
 
 import subprocess
 
