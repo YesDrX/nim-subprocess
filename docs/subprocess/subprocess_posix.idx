@@ -1,0 +1,21 @@
+nimTitle	subprocess_posix	subprocess/subprocess_posix.html	module src/subprocess/subprocess_posix		0
+nim	Handle	subprocess/subprocess_posix.html#Handle	type Handle		9
+nim	ProcessPID	subprocess/subprocess_posix.html#ProcessPID	type ProcessPID		10
+nim	IOHandle	subprocess/subprocess_posix.html#IOHandle	type IOHandle		11
+nim	SubprocessOptions	subprocess/subprocess_posix.html#SubprocessOptions	object SubprocessOptions		14
+nim	SubprocessObj	subprocess/subprocess_posix.html#SubprocessObj	object SubprocessObj		22
+nim	Subprocess	subprocess/subprocess_posix.html#Subprocess	type Subprocess		30
+nim	`=destroy`	subprocess/subprocess_posix.html#=destroy,SubprocessObj	proc `=destroy`(subprocess: var SubprocessObj)		34
+nim	startSubprocess	subprocess/subprocess_posix.html#startSubprocess,string,openArray[string],SubprocessOptions	proc startSubprocess(command: string; args: openArray[string];\n                options: SubprocessOptions): Subprocess		50
+nim	isRunning	subprocess/subprocess_posix.html#isRunning,Subprocess	proc isRunning(subprocess: Subprocess): bool		183
+nim	wait	subprocess/subprocess_posix.html#wait,Subprocess	proc wait(subprocess: Subprocess): int		208
+nim	write	subprocess/subprocess_posix.html#write,Subprocess,string	proc write(subprocess: Subprocess; data: string): int		230
+nim	closeStdin	subprocess/subprocess_posix.html#closeStdin,Subprocess	proc closeStdin(subprocess: Subprocess)		266
+nim	hasDataStdout	subprocess/subprocess_posix.html#hasDataStdout,Subprocess	proc hasDataStdout(subprocess: Subprocess): bool		273
+nim	hasDataStderr	subprocess/subprocess_posix.html#hasDataStderr,Subprocess	proc hasDataStderr(subprocess: Subprocess): bool		295
+nim	readStdout	subprocess/subprocess_posix.html#readStdout,Subprocess,int	proc readStdout(subprocess: Subprocess; timeoutMs: int = -1): string		310
+nim	readStderr	subprocess/subprocess_posix.html#readStderr,Subprocess,int	proc readStderr(subprocess: Subprocess; timeoutMs: int = -1): string		351
+nim	readAllStdout	subprocess/subprocess_posix.html#readAllStdout,Subprocess,int	proc readAllStdout(subprocess: Subprocess; timeoutMs: int = -1): string		384
+nim	readAllStderr	subprocess/subprocess_posix.html#readAllStderr,Subprocess,int	proc readAllStderr(subprocess: Subprocess; timeoutMs: int = -1): string		418
+nim	terminate	subprocess/subprocess_posix.html#terminate,Subprocess,bool	proc terminate(subprocess: Subprocess; graceful: bool = true)		446
+nim	close	subprocess/subprocess_posix.html#close,Subprocess	proc close(subprocess: Subprocess)		482
