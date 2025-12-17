@@ -66,7 +66,40 @@
 ##       doAssert process.isRunning()
 ##       process.terminate(graceful = true)  ## Sends SIGTERM first
 ##       doAssert not process.isRunning()
-##
+##   
+##   ## Example 6: Byte frame protocol - read exact byte counts
+##   block:
+##     # For protocols with format: [4-byte length][payload]
+##     proc readFrame(process: Subprocess): string =
+##       # Read exactly 4 bytes for the message length
+##       let lengthBytes = process.readStdout(numBytesToRead = 4)
+##       if lengthBytes.len != 4:
+##         return "" # Not enough data
+##       
+##       # Convert the 4 bytes to an integer (little-endian)
+##       var msgLength: int
+##       copyMem(addr msgLength, lengthBytes[0].unsafeAddr, 4)
+##       
+##       # Read exactly msgLength bytes for the payload
+##       let payload = process.readStdout(numBytesToRead = msgLength)
+##       if payload.len != msgLength:
+##         return "" # Incomplete payload
+##       
+##       return payload
+##     
+##     # Usage with a subprocess that outputs framed data
+##     # var opts = SubprocessOptions(useStdout: true)
+##     # let process = startSubprocess("frame_protocol_app", [], opts)
+##     # 
+##     # while process.isRunning() or not process.isStdoutEof():
+##     #   let frame = readFrame(process)
+##     #   if frame.len > 0:
+##     #     echo "Received frame: ", frame
+##     #   else:
+##     #     # Small delay to prevent busy looping
+##     #     sleep(10)
+##     # 
+##     # process.close()
 
 when defined(windows):
     import ./subprocess/subprocess_win
@@ -74,4 +107,3 @@ when defined(windows):
 else:
     import ./subprocess/subprocess_posix
     export subprocess_posix
-

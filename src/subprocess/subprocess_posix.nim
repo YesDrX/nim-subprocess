@@ -339,12 +339,14 @@ proc isStderrEof*(subprocess: Subprocess): bool =
     ##   true if stderr has reached EOF, false otherwise
     return subprocess.stderrEof
 
-proc readStdout*(subprocess: Subprocess, timeoutMs: int = -1): string =
-    ## Read from stdout with optional timeout.
+proc readStdout*(subprocess: Subprocess, numBytesToRead: int = -1, timeoutMs: int = -1): string =
+    ## Read from stdout with optional byte count and timeout.
     ## 
-    ## Reads up to 4096 bytes. For reading all data, use readAllStdout().
+    ## Reads up to numBytesToRead bytes, or up to 4096 bytes if numBytesToRead is -1.
+    ## For reading all data, use readAllStdout().
     ## 
     ## Args:
+    ##   numBytesToRead: Number of bytes to read. -1 means read up to 4096 bytes
     ##   timeoutMs: Timeout in milliseconds. -1 means blocking (wait forever)
     ## 
     ## Returns:
@@ -356,8 +358,14 @@ proc readStdout*(subprocess: Subprocess, timeoutMs: int = -1): string =
     ##   let data = p.readStdout(timeoutMs = 1000)
     ##   if data.len > 0:
     ##     echo "Read: ", data
+    ##   
+    ##   # Read exactly 10 bytes
+    ##   let frame = p.readStdout(numBytesToRead = 10)
     ##   ```
     if subprocess.stdout < 0: return ""
+    
+    # Determine how many bytes to read
+    let bytesToRead = if numBytesToRead >= 0: numBytesToRead else: 4096
     
     # If timeout is specified, use select to wait for data
     if timeoutMs >= 0:
@@ -372,8 +380,8 @@ proc readStdout*(subprocess: Subprocess, timeoutMs: int = -1): string =
         if selectResult <= 0:
             return ""  # Timeout or error
     
-    var buffer = newString(4096)
-    let n = read(subprocess.stdout, addr buffer[0], 4096)
+    var buffer = newString(bytesToRead)
+    let n = read(subprocess.stdout, addr buffer[0], bytesToRead)
     if n > 0:
         buffer.setLen(n)
         return buffer
@@ -382,17 +390,22 @@ proc readStdout*(subprocess: Subprocess, timeoutMs: int = -1): string =
         subprocess.stdoutEof = true
     return ""
 
-proc readStderr*(subprocess: Subprocess, timeoutMs: int = -1): string =
-    ## Read from stderr with optional timeout.
+proc readStderr*(subprocess: Subprocess, numBytesToRead: int = -1, timeoutMs: int = -1): string =
+    ## Read from stderr with optional byte count and timeout.
     ## 
-    ## Reads up to 4096 bytes. For reading all data, use readAllStderr().
+    ## Reads up to numBytesToRead bytes, or up to 4096 bytes if numBytesToRead is -1.
+    ## For reading all data, use readAllStderr().
     ## 
     ## Args:
+    ##   numBytesToRead: Number of bytes to read. -1 means read up to 4096 bytes
     ##   timeoutMs: Timeout in milliseconds. -1 means blocking (wait forever)
     ## 
     ## Returns:
     ##   String with data read, or empty string if timeout/EOF/error
     if subprocess.stderr < 0: return ""
+    
+    # Determine how many bytes to read
+    let bytesToRead = if numBytesToRead >= 0: numBytesToRead else: 4096
     
     # If timeout is specified, use select to wait for data
     if timeoutMs >= 0:
@@ -407,8 +420,8 @@ proc readStderr*(subprocess: Subprocess, timeoutMs: int = -1): string =
         if selectResult <= 0:
             return ""  # Timeout or error
     
-    var buffer = newString(4096)
-    let n = read(subprocess.stderr, addr buffer[0], 4096)
+    var buffer = newString(bytesToRead)
+    let n = read(subprocess.stderr, addr buffer[0], bytesToRead)
     if n > 0:
         buffer.setLen(n)
         return buffer

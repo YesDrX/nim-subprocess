@@ -12,6 +12,7 @@ A cross-platform subprocess management library for Nim that makes redirecting st
 - 📡 **EOF Detection** - Detect when stdout/stderr reach end-of-file
 - 🎯 **Interactive Process Support** - Handle interactive CLI tools like debuggers and REPLs
 - 🔧 **Custom Environments** - Set custom environment variables for subprocesses
+- 📦 **Byte Frame Protocol Support** - [Read exact byte counts](#byte-frame-protocol-support) for binary protocols
 
 ## Installation
 
@@ -46,6 +47,39 @@ let result = cat.readAllStdout().strip()
 echo result  # "Hello"
 check cat.wait() == 0
 cat.close()
+
+# Byte frame protocol - read exact byte counts
+# For protocols with format: [4-byte length][payload]
+proc readFrame(process: Subprocess): string =
+  # Read exactly 4 bytes for the message length
+  let lengthBytes = process.readStdout(numBytesToRead = 4)
+  if lengthBytes.len != 4:
+    return "" # Not enough data
+  
+  # Convert the 4 bytes to an integer (little-endian)
+  var msgLength: int
+  copyMem(addr msgLength, lengthBytes[0].unsafeAddr, 4)
+  
+  # Read exactly msgLength bytes for the payload
+  let payload = process.readStdout(numBytesToRead = msgLength)
+  if payload.len != msgLength:
+    return "" # Incomplete payload
+  
+  return payload
+
+# Usage with a subprocess that outputs framed data
+# var opts3 = SubprocessOptions(useStdout: true)
+# let process = startSubprocess("frame_protocol_app", [], opts3)
+# 
+# while process.isRunning() or not process.isStdoutEof():
+#   let frame = readFrame(process)
+#   if frame.len > 0:
+#     echo "Received frame: ", frame
+#   else:
+#     # Small delay to prevent busy looping
+#     sleep(10)
+# 
+# process.close()
 ```
 
 ## API Overview
@@ -146,28 +180,50 @@ discard process.write("input data\n")
 Read available data from stdout (non-blocking or with timeout).
 
 ```nim
-proc readStdout*(subprocess: Subprocess, timeoutMs: int = -1): string
+proc readStdout*(subprocess: Subprocess, numBytesToRead: int = -1, timeoutMs: int = -1): string
 ```
 
 **Parameters:**
+- `numBytesToRead` - Number of bytes to read. `-1` = read up to 4096 bytes (default behavior)
 - `timeoutMs` - Timeout in milliseconds. `-1` = blocking (wait forever), `0` = non-blocking, `>0` = wait up to this many milliseconds
 
 **Returns:** Available data as a string (may be empty)
 
 **Example:**
 ```nim
-# Non-blocking read
+# Non-blocking read (default behavior)
 let data = process.readStdout()
 
 # Read with 1 second timeout
 let data = process.readStdout(timeoutMs = 1000)
+
+# Read exactly 10 bytes
+let frame = process.readStdout(numBytesToRead = 10)
+
+# Read exactly 5 bytes with 500ms timeout
+let frame = process.readStdout(numBytesToRead = 5, timeoutMs = 500)
 ```
 
 #### `readStderr`
 Read available data from stderr (non-blocking or with timeout).
 
 ```nim
-proc readStderr*(subprocess: Subprocess, timeoutMs: int = -1): string
+proc readStderr*(subprocess: Subprocess, numBytesToRead: int = -1, timeoutMs: int = -1): string
+```
+
+**Parameters:**
+- `numBytesToRead` - Number of bytes to read. `-1` = read up to 4096 bytes (default behavior)
+- `timeoutMs` - Timeout in milliseconds. `-1` = blocking (wait forever), `0` = non-blocking, `>0` = wait up to this many milliseconds
+
+**Returns:** Available data as a string (may be empty)
+
+**Example:**
+```nim
+# Non-blocking read (default behavior)
+let data = process.readStderr()
+
+# Read exactly 10 bytes
+let frame = process.readStderr(numBytesToRead = 10)
 ```
 
 #### `readAllStdout`
@@ -270,7 +326,8 @@ process.close()
 
 ### Capture Both Stdout and Stderr
 
-```nim
+``nim
+
 import subprocess
 
 # Separate streams
@@ -287,11 +344,13 @@ var opts2 = SubprocessOptions(useStdout: true, combineStdoutStderr: true)
 let process2 = startSubprocess("python3", ["-c", "import sys; print('out'); sys.stderr.write('err')"], opts2)
 let combined = process2.readAllStdout()
 process2.close()
+
 ```
 
 ### Interactive Process
 
 ```nim
+
 import subprocess
 
 var opts = SubprocessOptions(useStdin: true, useStdout: true)
@@ -305,6 +364,7 @@ let output = process.readAllStdout()
 echo output  # "line 1\nline 2\n"
 check process.wait() == 0
 process.close()
+
 ```
 
 ### Custom Environment Variables
@@ -383,6 +443,46 @@ process.close()
 
 See [tests/example_gdb_interactive.nim](tests/example_gdb_interactive.nim) for a complete example of running GDB interactively.
 
+### Byte Frame Protocol Support
+
+The library now supports reading exact byte counts, making it easier to implement byte frame protocols. This is useful when dealing with binary protocols that encode message length information.
+
+```nim
+import subprocess
+
+# Example for a protocol with format: [4-byte length][payload]
+proc readFrame(process: Subprocess): string =
+  # Read exactly 4 bytes for the message length
+  let lengthBytes = process.readStdout(numBytesToRead = 4)
+  if lengthBytes.len != 4:
+    return "" # Not enough data
+  
+  # Convert the 4 bytes to an integer (little-endian)
+  var msgLength: int
+  copyMem(addr msgLength, lengthBytes[0].unsafeAddr, 4)
+  
+  # Read exactly msgLength bytes for the payload
+  let payload = process.readStdout(numBytesToRead = msgLength)
+  if payload.len != msgLength:
+    return "" # Incomplete payload
+  
+  return payload
+
+# Usage
+var opts = SubprocessOptions(useStdout: true)
+let process = startSubprocess("frame_protocol_app", [], opts)
+
+while process.isRunning() or not process.isStdoutEof():
+  let frame = readFrame(process)
+  if frame.len > 0:
+    echo "Received frame: ", frame
+  else:
+    # Small delay to prevent busy looping
+    sleep(10)
+
+process.close()
+```
+
 ## Platform-Specific Notes
 
 ### Windows
@@ -398,7 +498,7 @@ See [tests/example_gdb_interactive.nim](tests/example_gdb_interactive.nim) for a
 
 Run the test suite:
 
-```bash
+```
 # POSIX systems
 nim c -r tests/test_posix.nim
 
