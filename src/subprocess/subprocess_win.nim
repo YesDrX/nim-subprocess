@@ -471,7 +471,7 @@ proc readAllStdout*(subprocess: Subprocess, timeoutMs: int = -1): string =
             else:
                 -1
         
-        let chunk = subprocess.readStdout(if remainingTimeout >= 0: remainingTimeout else: 0)
+        let chunk = subprocess.readStdout(remainingTimeout)
         if chunk.len == 0: break
         result.add(chunk)
 
@@ -499,7 +499,7 @@ proc readAllStderr*(subprocess: Subprocess, timeoutMs: int = -1): string =
             else:
                 -1
         
-        let chunk = subprocess.readStderr(if remainingTimeout >= 0: remainingTimeout else: 0)
+        let chunk = subprocess.readStderr(remainingTimeout)
         if chunk.len == 0: break
         result.add(chunk)
 
