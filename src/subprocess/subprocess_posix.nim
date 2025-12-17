@@ -26,6 +26,8 @@ type
         stdout*         : IOHandle
         stderr*         : IOHandle
         exit_code*      : int
+        stdoutEof*      : bool  ## True when stdout has reached EOF
+        stderrEof*      : bool  ## True when stderr has reached EOF
     
     Subprocess* = ref SubprocessObj
 
@@ -79,6 +81,8 @@ proc startSubprocess*(
     result.stdin = -1
     result.stdout = -1
     result.stderr = -1
+    result.stdoutEof = false
+    result.stderrEof = false
 
     var
         pStdin: array[2, cint]  = [-1.cint, -1.cint]
@@ -307,6 +311,34 @@ proc hasDataStderr*(subprocess: Subprocess): bool =
     let selectResult = select(subprocess.stderr + 1, addr readfds, nil, nil, addr timeout)
     return selectResult > 0 and FD_ISSET(subprocess.stderr, readfds) != 0.cint
 
+proc isStdoutEof*(subprocess: Subprocess): bool =
+    ## Check if stdout has reached end-of-file (EOF).
+    ## 
+    ## Returns true if a previous read operation encountered EOF,
+    ## indicating the subprocess has closed its stdout.
+    ## 
+    ## Returns:
+    ##   true if stdout has reached EOF, false otherwise
+    ## 
+    ## Example:
+    ##   ```nim
+    ##   while not p.isStdoutEof():
+    ##     let data = p.readStdout(timeoutMs = 100)
+    ##     if data.len > 0:
+    ##       echo data
+    ##   ```
+    return subprocess.stdoutEof
+
+proc isStderrEof*(subprocess: Subprocess): bool =
+    ## Check if stderr has reached end-of-file (EOF).
+    ## 
+    ## Returns true if a previous read operation encountered EOF,
+    ## indicating the subprocess has closed its stderr.
+    ## 
+    ## Returns:
+    ##   true if stderr has reached EOF, false otherwise
+    return subprocess.stderrEof
+
 proc readStdout*(subprocess: Subprocess, timeoutMs: int = -1): string =
     ## Read from stdout with optional timeout.
     ## 
@@ -346,6 +378,8 @@ proc readStdout*(subprocess: Subprocess, timeoutMs: int = -1): string =
         buffer.setLen(n)
         return buffer
     # n == 0 means EOF, n < 0 means error
+    if n == 0:
+        subprocess.stdoutEof = true
     return ""
 
 proc readStderr*(subprocess: Subprocess, timeoutMs: int = -1): string =
@@ -379,6 +413,8 @@ proc readStderr*(subprocess: Subprocess, timeoutMs: int = -1): string =
         buffer.setLen(n)
         return buffer
     # n == 0 means EOF, n < 0 means error
+    if n == 0:
+        subprocess.stderrEof = true
     return ""
 
 proc readAllStdout*(subprocess: Subprocess, timeoutMs: int = -1): string =

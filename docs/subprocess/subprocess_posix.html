@@ -65,7 +65,9 @@
   stdin*: IOHandle
   stdout*: IOHandle
   stderr*: IOHandle
-  exit_code*: int">SubprocessObj</a></li>
+  exit_code*: int
+  stdoutEof*: bool           ## True when stdout has reached EOF
+  stderrEof*: bool           ## True when stderr has reached EOF">SubprocessObj</a></li>
 <li><a class="reference" href="#SubprocessOptions" title="SubprocessOptions = object
   env*: Table[string, string]
   cwd*: string
@@ -103,6 +105,14 @@
 </ul>
 <ul class="simple nested-toc-section">isRunning
   <li><a class="reference" href="#isRunning%2CSubprocess" title="isRunning(subprocess: Subprocess): bool">isRunning(subprocess: Subprocess): bool</a></li>
+
+</ul>
+<ul class="simple nested-toc-section">isStderrEof
+  <li><a class="reference" href="#isStderrEof%2CSubprocess" title="isStderrEof(subprocess: Subprocess): bool">isStderrEof(subprocess: Subprocess): bool</a></li>
+
+</ul>
+<ul class="simple nested-toc-section">isStdoutEof
+  <li><a class="reference" href="#isStdoutEof%2CSubprocess" title="isStdoutEof(subprocess: Subprocess): bool">isStdoutEof(subprocess: Subprocess): bool</a></li>
 
 </ul>
 <ul class="simple nested-toc-section">readAllStderr
@@ -194,8 +204,8 @@
   <dd>
     
     
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L30" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L30" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L32" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L32" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -206,7 +216,9 @@
   <span class="Identifier">stdin</span><span class="Operator">*</span><span class="Other">:</span> <a href="subprocess_posix.html#IOHandle"><span class="Identifier">IOHandle</span></a>
   <span class="Identifier">stdout</span><span class="Operator">*</span><span class="Other">:</span> <a href="subprocess_posix.html#IOHandle"><span class="Identifier">IOHandle</span></a>
   <span class="Identifier">stderr</span><span class="Operator">*</span><span class="Other">:</span> <a href="subprocess_posix.html#IOHandle"><span class="Identifier">IOHandle</span></a>
-  <span class="Identifier">exit_code</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">int</span></pre></dt>
+  <span class="Identifier">exit_code</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">int</span>
+  <span class="Identifier">stdoutEof</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>           <span class="Comment">## True when stdout has reached EOF</span>
+  <span class="Identifier">stderrEof</span><span class="Operator">*</span><span class="Other">:</span> <span class="Identifier">bool</span>           <span class="Comment">## True when stderr has reached EOF</span></pre></dt>
   <dd>
     
     
@@ -244,8 +256,8 @@
   <dd>
     
     Destructor to prevent zombie processes
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L34" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L34" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L36" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L36" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -262,8 +274,8 @@
 <p><pre class="listing"><span class="Keyword">let</span> <span class="Identifier">p</span> <span class="Operator">=</span> <span class="Identifier">startSubprocess</span><span class="Punctuation">(</span><span class="Operator">...</span><span class="Punctuation">)</span>
 <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">close</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre></p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L482" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L482" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L518" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L518" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -277,8 +289,8 @@
     <p>Close the stdin pipe to the subprocess.</p>
 <p>This signals EOF to the subprocess. Useful after writing all input. Many programs (like <tt class="docutils literal"><span class="pre"><span class="Identifier">cat</span></span></tt>, <tt class="docutils literal"><span class="pre"><span class="Identifier">wc</span></span></tt>, etc.) wait for EOF before processing.</p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L266" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L266" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L270" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L270" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -294,8 +306,8 @@
 <p>Uses select() with zero timeout for immediate, non-blocking check.</p>
 <p>Returns: true if data is available, false otherwise</p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L295" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L295" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L299" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L299" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -315,8 +327,8 @@
   <span class="Keyword">let</span> <span class="Identifier">data</span> <span class="Operator">=</span> <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">readStdout</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
   <span class="Identifier">echo</span> <span class="StringLit">&quot;Got: &quot;</span><span class="Punctuation">,</span> <span class="Identifier">data</span></pre></p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L273" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L273" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L277" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L277" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -335,8 +347,47 @@
   <span class="Keyword">let</span> <span class="Identifier">output</span> <span class="Operator">=</span> <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">readStdout</span><span class="Punctuation">(</span><span class="Identifier">timeoutMs</span> <span class="Operator">=</span> <span class="DecNumber">100</span><span class="Punctuation">)</span>
   <span class="Keyword">if</span> <span class="Identifier">output</span><span class="Operator">.</span><span class="Identifier">len</span> <span class="Operator">&gt;</span> <span class="DecNumber">0</span><span class="Punctuation">:</span> <span class="Identifier">echo</span> <span class="Identifier">output</span></pre></p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L183" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L183" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L187" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L187" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+
+</div>
+<div id="isStderrEof-procs-all">
+  <div id="isStderrEof,Subprocess">
+  <dt><pre><span class="Keyword">proc</span> <a href="#isStderrEof%2CSubprocess"><span class="Identifier">isStderrEof</span></a><span class="Other">(</span><span class="Identifier">subprocess</span><span class="Other">:</span> <a href="subprocess_posix.html#Subprocess"><span class="Identifier">Subprocess</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
+    
+    <p>Check if stderr has reached end-of-file (EOF).</p>
+<p>Returns true if a previous read operation encountered EOF, indicating the subprocess has closed its stderr.</p>
+<p>Returns: true if stderr has reached EOF, false otherwise</p>
+
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L332" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L332" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+
+  </dd>
+</div>
+
+</div>
+<div id="isStdoutEof-procs-all">
+  <div id="isStdoutEof,Subprocess">
+  <dt><pre><span class="Keyword">proc</span> <a href="#isStdoutEof%2CSubprocess"><span class="Identifier">isStdoutEof</span></a><span class="Other">(</span><span class="Identifier">subprocess</span><span class="Other">:</span> <a href="subprocess_posix.html#Subprocess"><span class="Identifier">Subprocess</span></a><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span>
+    <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
+    
+    <p>Check if stdout has reached end-of-file (EOF).</p>
+<p>Returns true if a previous read operation encountered EOF, indicating the subprocess has closed its stdout.</p>
+<p>Returns: true if stdout has reached EOF, false otherwise</p>
+<p>Example:</p>
+<p><pre class="listing"><span class="Keyword">while</span> <span class="Keyword">not</span> <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">isStdoutEof</span><span class="Punctuation">(</span><span class="Punctuation">)</span><span class="Punctuation">:</span>
+  <span class="Keyword">let</span> <span class="Identifier">data</span> <span class="Operator">=</span> <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">readStdout</span><span class="Punctuation">(</span><span class="Identifier">timeoutMs</span> <span class="Operator">=</span> <span class="DecNumber">100</span><span class="Punctuation">)</span>
+  <span class="Keyword">if</span> <span class="Identifier">data</span><span class="Operator">.</span><span class="Identifier">len</span> <span class="Operator">&gt;</span> <span class="DecNumber">0</span><span class="Punctuation">:</span>
+    <span class="Identifier">echo</span> <span class="Identifier">data</span></pre></p>
+
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L314" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L314" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -354,8 +405,8 @@
 <pre>-1 means no timeout (reads until EOF or no data available)</pre>
 <p>Returns: Concatenated string of all data read</p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L418" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L418" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L454" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L454" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -376,8 +427,8 @@
 <p><pre class="listing"><span class="Keyword">let</span> <span class="Identifier">allData</span> <span class="Operator">=</span> <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">readAllStdout</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
 <span class="Identifier">echo</span> <span class="StringLit">&quot;Complete output: &quot;</span><span class="Punctuation">,</span> <span class="Identifier">allData</span></pre></p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L384" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L384" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L420" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L420" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -394,8 +445,8 @@
 <p>Args: timeoutMs: Timeout in milliseconds. -1 means blocking (wait forever)</p>
 <p>Returns: String with data read, or empty string if timeout/EOF/error</p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L351" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L351" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L385" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L385" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -417,8 +468,8 @@
 <span class="Keyword">if</span> <span class="Identifier">data</span><span class="Operator">.</span><span class="Identifier">len</span> <span class="Operator">&gt;</span> <span class="DecNumber">0</span><span class="Punctuation">:</span>
   <span class="Identifier">echo</span> <span class="StringLit">&quot;Read: &quot;</span><span class="Punctuation">,</span> <span class="Identifier">data</span></pre></p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L310" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L310" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L342" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L342" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -442,8 +493,8 @@
 <span class="Identifier">echo</span> <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">readAllStdout</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
 <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">close</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre></p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L50" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L50" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L52" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L52" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -464,8 +515,8 @@
 <span class="Comment"># Force kill immediately</span>
 <span class="Identifier">p</span><span class="Operator">.</span><span class="Identifier">terminate</span><span class="Punctuation">(</span><span class="Identifier">graceful</span> <span class="Operator">=</span> <span class="Identifier">false</span><span class="Punctuation">)</span></pre></p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L446" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L446" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L482" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L482" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -484,8 +535,8 @@
 <span class="Keyword">if</span> <span class="Identifier">exitCode</span> <span class="Operator">==</span> <span class="DecNumber">0</span><span class="Punctuation">:</span>
   <span class="Identifier">echo</span> <span class="StringLit">&quot;Process succeeded&quot;</span></pre></p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L208" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L208" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L212" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L212" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -507,8 +558,8 @@
   <span class="Identifier">echo</span> <span class="StringLit">&quot;Partial write or error&quot;</span></pre></p>
 <p>Write data to subprocess stdin. Returns number of bytes written. Handles partial writes automatically.</p>
 
-    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L230" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L230" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess/subprocess_posix.nim#L234" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess/subprocess_posix.nim#L234" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
   </dd>
 </div>
@@ -524,7 +575,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-17 03:53:32 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-17 13:53:14 UTC</small>
       </div>
     </div>
   </div>

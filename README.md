@@ -9,6 +9,7 @@ A cross-platform subprocess management library for Nim that makes redirecting st
 - 🌍 **Cross-Platform** - Works seamlessly on Windows, Linux, and macOS
 - ⚡ **Non-Blocking I/O** - Check for data availability before reading
 - ⏱️ **Timeout Support** - Read with configurable timeouts
+- 📡 **EOF Detection** - Detect when stdout/stderr reach end-of-file
 - 🎯 **Interactive Process Support** - Handle interactive CLI tools like debuggers and REPLs
 - 🔧 **Custom Environments** - Set custom environment variables for subprocesses
 
@@ -145,11 +146,11 @@ discard process.write("input data\n")
 Read available data from stdout (non-blocking or with timeout).
 
 ```nim
-proc readStdout*(subprocess: Subprocess, timeoutMs: int = 0): string
+proc readStdout*(subprocess: Subprocess, timeoutMs: int = -1): string
 ```
 
 **Parameters:**
-- `timeoutMs` - Wait up to this many milliseconds for data (0 = non-blocking)
+- `timeoutMs` - Timeout in milliseconds. `-1` = blocking (wait forever), `0` = non-blocking, `>0` = wait up to this many milliseconds
 
 **Returns:** Available data as a string (may be empty)
 
@@ -166,7 +167,7 @@ let data = process.readStdout(timeoutMs = 1000)
 Read available data from stderr (non-blocking or with timeout).
 
 ```nim
-proc readStderr*(subprocess: Subprocess, timeoutMs: int = 0): string
+proc readStderr*(subprocess: Subprocess, timeoutMs: int = -1): string
 ```
 
 #### `readAllStdout`
@@ -225,6 +226,32 @@ discard cat.write("data\n")
 cat.closeStdin()  # Signal EOF
 let result = cat.readAllStdout()
 ```
+
+#### `isStdoutEof`
+Check if stdout has reached end-of-file (EOF).
+
+```nim
+proc isStdoutEof*(subprocess: Subprocess): bool
+```
+
+**Returns:** `true` if stdout has reached EOF, `false` otherwise
+
+**Example:**
+```nim
+while not process.isStdoutEof():
+    let data = process.readStdout(timeoutMs = 100)
+    if data.len > 0:
+        echo data
+```
+
+#### `isStderrEof`
+Check if stderr has reached end-of-file (EOF).
+
+```nim
+proc isStderrEof*(subprocess: Subprocess): bool
+```
+
+**Returns:** `true` if stderr has reached EOF, `false` otherwise
 
 ## Usage Examples
 
@@ -329,6 +356,26 @@ let output = process.readStdout(timeoutMs = 5000)
 if output == "":
     echo "No output received within timeout"
 
+process.close()
+```
+
+### EOF Detection
+
+```nim
+import subprocess
+
+var opts = SubprocessOptions(useStdout: true)
+let process = startSubprocess("cat", ["file.txt"], opts)
+
+# Read until EOF is reached
+var allOutput = ""
+while not process.isStdoutEof():
+    let chunk = process.readStdout(timeoutMs = 100)
+    if chunk.len > 0:
+        allOutput.add(chunk)
+
+echo "Process finished writing. Total output: ", allOutput.len, " bytes"
+check process.wait() == 0
 process.close()
 ```
 

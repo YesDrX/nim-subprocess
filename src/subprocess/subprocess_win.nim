@@ -27,6 +27,8 @@ type
         stdout*         : IOHandle
         stderr*         : IOHandle
         exit_code*      : int
+        stdoutEof*      : bool  ## True when stdout has reached EOF
+        stderrEof*      : bool  ## True when stderr has reached EOF
     
     Subprocess* = ref SubprocessObj
 
@@ -181,6 +183,8 @@ proc startSubprocess*(
     result.stdin = 0
     result.stdout = 0
     result.stderr = 0
+    result.stdoutEof = false
+    result.stderrEof = false
 
     var
         sa: SECURITY_ATTRIBUTES
@@ -361,6 +365,34 @@ proc hasDataStderr*(subprocess: Subprocess): bool =
         return bytesAvail > 0
     return false
 
+proc isStdoutEof*(subprocess: Subprocess): bool =
+    ## Check if stdout has reached end-of-file (EOF).
+    ## 
+    ## Returns true if a previous read operation encountered EOF,
+    ## indicating the subprocess has closed its stdout.
+    ## 
+    ## Returns:
+    ##   true if stdout has reached EOF, false otherwise
+    ## 
+    ## Example:
+    ##   ```nim
+    ##   while not p.isStdoutEof():
+    ##     let data = p.readStdout(timeoutMs = 100)
+    ##     if data.len > 0:
+    ##       echo data
+    ##   ```
+    return subprocess.stdoutEof
+
+proc isStderrEof*(subprocess: Subprocess): bool =
+    ## Check if stderr has reached end-of-file (EOF).
+    ## 
+    ## Returns true if a previous read operation encountered EOF,
+    ## indicating the subprocess has closed its stderr.
+    ## 
+    ## Returns:
+    ##   true if stderr has reached EOF, false otherwise
+    return subprocess.stderrEof
+
 proc readStdout*(subprocess: Subprocess, timeoutMs: int = -1): string =
     ## Read from stdout with optional timeout.
     ## 
@@ -403,6 +435,9 @@ proc readStdout*(subprocess: Subprocess, timeoutMs: int = -1): string =
         if readBytes > 0:
             buffer.setLen(readBytes)
             return buffer
+        # readBytes == 0 means EOF
+        if readBytes == 0:
+            subprocess.stdoutEof = true
     # EOF or error
     return ""
 
@@ -444,6 +479,9 @@ proc readStderr*(subprocess: Subprocess, timeoutMs: int = -1): string =
         if readBytes > 0:
             buffer.setLen(readBytes)
             return buffer
+        # readBytes == 0 means EOF
+        if readBytes == 0:
+            subprocess.stderrEof = true
     # EOF or error
     return ""
 
