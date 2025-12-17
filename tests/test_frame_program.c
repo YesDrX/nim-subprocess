@@ -1,8 +1,13 @@
     #include <stdio.h>
     #include <string.h>
     #include <windows.h>
+    #include <io.h>
+    #include <fcntl.h>
     
     int main() {
+        // Set stdout to binary mode to prevent text translation
+        setmode(fileno(stdout), O_BINARY);
+        
         // Message 1: Length 5 + payload "Hello"
         char msg1[] = "Hello";
         int len1 = strlen(msg1);
