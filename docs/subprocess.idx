@@ -1,6 +1,1 @@
 nimTitle	subprocess	subprocess.html	module src/subprocess		0
-heading	Example 1: Capture output	subprocess.html#example-1colon-capture-output	 Example 1: Capture output		0
-heading	Example 2: Write to stdin and read stdout	subprocess.html#example-2colon-write-to-stdin-and-read-stdout	 Example 2: Write to stdin and read stdout		0
-heading	Example 3: Check for data before reading	subprocess.html#example-3colon-check-for-data-before-reading	 Example 3: Check for data before reading		0
-heading	Example 4: Read with timeout	subprocess.html#example-4colon-read-with-timeout	 Example 4: Read with timeout		0
-heading	Example 5: Graceful termination (POSIX only)	subprocess.html#example-5colon-graceful-termination-posix-only	 Example 5: Graceful termination (POSIX only)		0

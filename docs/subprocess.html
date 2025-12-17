@@ -51,12 +51,7 @@
       </select>
     </div>
     <ul class="simple simple-toc" id="toc-list">
-  <li><a class="reference" id="example-1colon-capture-output_toc" href="#example-1colon-capture-output">Example 1: Capture output</a></li>
-<li><a class="reference" id="example-2colon-write-to-stdin-and-read-stdout_toc" href="#example-2colon-write-to-stdin-and-read-stdout">Example 2: Write to stdin and read stdout</a></li>
-<li><a class="reference" id="example-3colon-check-for-data-before-reading_toc" href="#example-3colon-check-for-data-before-reading">Example 3: Check for data before reading</a></li>
-<li><a class="reference" id="example-4colon-read-with-timeout_toc" href="#example-4colon-read-with-timeout">Example 4: Read with timeout</a></li>
-<li><a class="reference" id="example-5colon-graceful-termination-posix-only_toc" href="#example-5colon-graceful-termination-posix-only">Example 5: Graceful termination (POSIX only)</a></li>
-<li>
+  <li>
   <a class="reference reference-toplevel" href="#6" id="56">Imports</a>
 </li>
 <li>
@@ -67,8 +62,8 @@
 
   </div>
   <div class="nine columns" id="content">
-    <a href="https://github.com/yesdrx/nim-subprocess/tree/master/src/subprocess.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
-<a href="https://github.com/yesdrx/nim-subprocess/edit/devel/src/subprocess.nim#L1" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
+    <a href="https://github.com/YesDrX/nim-subprocess/tree/master/src/subprocess.nim#L1" class="link-seesrc" target="_blank">Source</a>&nbsp;&nbsp;
+<a href="https://github.com/YesDrX/nim-subprocess/edit/devel/src/subprocess.nim#L1" class="link-seesrc" target="_blank" >Edit</a>&nbsp;&nbsp;
 
     <div id="tocRoot"></div>
     
@@ -82,28 +77,66 @@
 <span class="Keyword">let</span> <span class="Identifier">process</span> <span class="Operator">=</span> <span class="Identifier">startSubprocess</span><span class="Punctuation">(</span><span class="StringLit">&quot;echo&quot;</span><span class="Punctuation">,</span> <span class="Punctuation">[</span><span class="StringLit">&quot;hello world&quot;</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Identifier">opts</span><span class="Punctuation">)</span>
 <span class="Keyword">let</span> <span class="Identifier">output</span> <span class="Operator">=</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">readAllStdout</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
 <span class="Identifier">echo</span> <span class="Identifier">output</span>  <span class="Comment"># &quot;hello world&quot;</span>
-<span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">close</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre><p>runnableExamples: import std/strutils</p>
+<span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">close</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre><pre class="listing"><span class="Keyword">import</span> <span class="Identifier">std</span><span class="Operator">/</span><span class="Identifier">strutils</span>
+<span class="Keyword">import</span> <span class="Identifier">subprocess</span>
 
-<h1><a class="toc-backref" id="example-1colon-capture-output" href="#example-1colon-capture-output">Example 1: Capture output</a></h1><p>block: var opts = SubprocessOptions(useStdout: true) let process = startSubprocess(&quot;echo&quot;, <a class="reference internal" href="#&quot;test output&quot;">&quot;test output&quot;</a>, opts) let output = process.readAllStdout().strip() doAssert output == &quot;test output&quot; doAssert process.wait() == 0 process.close()</p>
+<span class="Comment">## Example 1: Capture output</span>
+<span class="Keyword">block</span><span class="Punctuation">:</span>
+  <span class="Keyword">var</span> <span class="Identifier">opts</span> <span class="Operator">=</span> <span class="Identifier">SubprocessOptions</span><span class="Punctuation">(</span><span class="Identifier">useStdout</span><span class="Punctuation">:</span> <span class="Identifier">true</span><span class="Punctuation">)</span>
+  <span class="Keyword">let</span> <span class="Identifier">process</span> <span class="Operator">=</span> <span class="Identifier">startSubprocess</span><span class="Punctuation">(</span><span class="StringLit">&quot;echo&quot;</span><span class="Punctuation">,</span> <span class="Punctuation">[</span><span class="StringLit">&quot;test output&quot;</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Identifier">opts</span><span class="Punctuation">)</span>
+  <span class="Keyword">let</span> <span class="Identifier">output</span> <span class="Operator">=</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">readAllStdout</span><span class="Punctuation">(</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">strip</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+  <span class="Identifier">doAssert</span> <span class="Identifier">output</span> <span class="Operator">==</span> <span class="StringLit">&quot;test output&quot;</span>
+  <span class="Identifier">doAssert</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">wait</span><span class="Punctuation">(</span><span class="Punctuation">)</span> <span class="Operator">==</span> <span class="DecNumber">0</span>
+  <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">close</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
 
-<h1><a class="toc-backref" id="example-2colon-write-to-stdin-and-read-stdout" href="#example-2colon-write-to-stdin-and-read-stdout">Example 2: Write to stdin and read stdout</a></h1><p>block: var opts = SubprocessOptions(useStdin: true, useStdout: true) let process = startSubprocess(&quot;cat&quot;, <a class="reference internal" href="#"></a>, opts) discard process.write(&quot;hello from stdinn&quot;) process.closeStdin() let output = process.readAllStdout().strip() doAssert output == &quot;hello from stdin&quot; process.close()</p>
+<span class="Comment">## Example 2: Write to stdin and read stdout</span>
+<span class="Keyword">block</span><span class="Punctuation">:</span>
+  <span class="Keyword">var</span> <span class="Identifier">opts</span> <span class="Operator">=</span> <span class="Identifier">SubprocessOptions</span><span class="Punctuation">(</span><span class="Identifier">useStdin</span><span class="Punctuation">:</span> <span class="Identifier">true</span><span class="Punctuation">,</span> <span class="Identifier">useStdout</span><span class="Punctuation">:</span> <span class="Identifier">true</span><span class="Punctuation">)</span>
+  <span class="Keyword">let</span> <span class="Identifier">process</span> <span class="Operator">=</span> <span class="Identifier">startSubprocess</span><span class="Punctuation">(</span><span class="StringLit">&quot;cat&quot;</span><span class="Punctuation">,</span> <span class="Punctuation">[</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Identifier">opts</span><span class="Punctuation">)</span>
+  <span class="Keyword">discard</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">write</span><span class="Punctuation">(</span><span class="StringLit">&quot;hello from stdin</span><span class="EscapeSequence">\n</span><span class="StringLit">&quot;</span><span class="Punctuation">)</span>
+  <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">closeStdin</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+  <span class="Keyword">let</span> <span class="Identifier">output</span> <span class="Operator">=</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">readAllStdout</span><span class="Punctuation">(</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">strip</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+  <span class="Identifier">doAssert</span> <span class="Identifier">output</span> <span class="Operator">==</span> <span class="StringLit">&quot;hello from stdin&quot;</span>
+  <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">close</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
 
-<h1><a class="toc-backref" id="example-3colon-check-for-data-before-reading" href="#example-3colon-check-for-data-before-reading">Example 3: Check for data before reading</a></h1><p>block: var opts = SubprocessOptions(useStdout: true) let process = startSubprocess(&quot;echo&quot;, <a class="reference internal" href="#&quot;quick&quot;">&quot;quick&quot;</a>, opts) sleep(50)  # Give it time to produce output if process.hasDataStdout(): let output = process.readStdout() doAssert output.len &gt; 0 process.close()</p>
+<span class="Comment">## Example 3: Check for data before reading</span>
+<span class="Keyword">block</span><span class="Punctuation">:</span>
+  <span class="Keyword">var</span> <span class="Identifier">opts</span> <span class="Operator">=</span> <span class="Identifier">SubprocessOptions</span><span class="Punctuation">(</span><span class="Identifier">useStdout</span><span class="Punctuation">:</span> <span class="Identifier">true</span><span class="Punctuation">)</span>
+  <span class="Keyword">let</span> <span class="Identifier">process</span> <span class="Operator">=</span> <span class="Identifier">startSubprocess</span><span class="Punctuation">(</span><span class="StringLit">&quot;echo&quot;</span><span class="Punctuation">,</span> <span class="Punctuation">[</span><span class="StringLit">&quot;quick&quot;</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Identifier">opts</span><span class="Punctuation">)</span>
+  <span class="Identifier">sleep</span><span class="Punctuation">(</span><span class="DecNumber">50</span><span class="Punctuation">)</span>  <span class="Comment">## Give it time to produce output</span>
+  <span class="Keyword">if</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">hasDataStdout</span><span class="Punctuation">(</span><span class="Punctuation">)</span><span class="Punctuation">:</span>
+    <span class="Keyword">let</span> <span class="Identifier">output</span> <span class="Operator">=</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">readStdout</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+    <span class="Identifier">doAssert</span> <span class="Identifier">output</span><span class="Operator">.</span><span class="Identifier">len</span> <span class="Operator">&gt;</span> <span class="DecNumber">0</span>
+  <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">close</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
 
-<h1><a class="toc-backref" id="example-4colon-read-with-timeout" href="#example-4colon-read-with-timeout">Example 4: Read with timeout</a></h1><p>block: var opts = SubprocessOptions(useStdout: true) let process = startSubprocess(&quot;echo&quot;, <a class="reference internal" href="#&quot;timeout test&quot;">&quot;timeout test&quot;</a>, opts) sleep(50) # Read with 1 second timeout let output = process.readStdout(timeoutMs = 1000).strip() doAssert output == &quot;timeout test&quot; process.close()</p>
+<span class="Comment">## Example 4: Read with timeout</span>
+<span class="Keyword">block</span><span class="Punctuation">:</span>
+  <span class="Keyword">var</span> <span class="Identifier">opts</span> <span class="Operator">=</span> <span class="Identifier">SubprocessOptions</span><span class="Punctuation">(</span><span class="Identifier">useStdout</span><span class="Punctuation">:</span> <span class="Identifier">true</span><span class="Punctuation">)</span>
+  <span class="Keyword">let</span> <span class="Identifier">process</span> <span class="Operator">=</span> <span class="Identifier">startSubprocess</span><span class="Punctuation">(</span><span class="StringLit">&quot;echo&quot;</span><span class="Punctuation">,</span> <span class="Punctuation">[</span><span class="StringLit">&quot;timeout test&quot;</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Identifier">opts</span><span class="Punctuation">)</span>
+  <span class="Identifier">sleep</span><span class="Punctuation">(</span><span class="DecNumber">50</span><span class="Punctuation">)</span>
+  <span class="Comment">## Read with 1 second timeout</span>
+  <span class="Keyword">let</span> <span class="Identifier">output</span> <span class="Operator">=</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">readStdout</span><span class="Punctuation">(</span><span class="Identifier">timeoutMs</span> <span class="Operator">=</span> <span class="DecNumber">1000</span><span class="Punctuation">)</span><span class="Operator">.</span><span class="Identifier">strip</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+  <span class="Identifier">doAssert</span> <span class="Identifier">output</span> <span class="Operator">==</span> <span class="StringLit">&quot;timeout test&quot;</span>
+  <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">close</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
 
-<h1><a class="toc-backref" id="example-5colon-graceful-termination-posix-only" href="#example-5colon-graceful-termination-posix-only">Example 5: Graceful termination (POSIX only)</a></h1><p>when not defined(windows): block: var opts = SubprocessOptions() let process = startSubprocess(&quot;sleep&quot;, <a class="reference internal" href="#&quot;10&quot;">&quot;10&quot;</a>, opts) doAssert process.isRunning() process.terminate(graceful = true)  # Sends SIGTERM first doAssert not process.isRunning()</p>
-</p>
+<span class="Comment">## Example 5: Graceful termination (POSIX only)</span>
+<span class="Keyword">when</span> <span class="Keyword">not</span> <span class="Identifier">defined</span><span class="Punctuation">(</span><span class="Identifier">windows</span><span class="Punctuation">)</span><span class="Punctuation">:</span>
+  <span class="Keyword">block</span><span class="Punctuation">:</span>
+    <span class="Keyword">var</span> <span class="Identifier">opts</span> <span class="Operator">=</span> <span class="Identifier">SubprocessOptions</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+    <span class="Keyword">let</span> <span class="Identifier">process</span> <span class="Operator">=</span> <span class="Identifier">startSubprocess</span><span class="Punctuation">(</span><span class="StringLit">&quot;sleep&quot;</span><span class="Punctuation">,</span> <span class="Punctuation">[</span><span class="StringLit">&quot;10&quot;</span><span class="Punctuation">]</span><span class="Punctuation">,</span> <span class="Identifier">opts</span><span class="Punctuation">)</span>
+    <span class="Identifier">doAssert</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">isRunning</span><span class="Punctuation">(</span><span class="Punctuation">)</span>
+    <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">terminate</span><span class="Punctuation">(</span><span class="Identifier">graceful</span> <span class="Operator">=</span> <span class="Identifier">true</span><span class="Punctuation">)</span>  <span class="Comment">## Sends SIGTERM first</span>
+    <span class="Identifier">doAssert</span> <span class="Keyword">not</span> <span class="Identifier">process</span><span class="Operator">.</span><span class="Identifier">isRunning</span><span class="Punctuation">(</span><span class="Punctuation">)</span></pre></p>
     <div class="section" id="6">
   <h1><a class="toc-backref" href="#6">Imports</a></h1>
   <dl class="item">
-    <a class="reference external" href="subprocess/subprocess_win.html">subprocess/subprocess_win</a>
+    <a class="reference external" href="subprocess/subprocess_posix.html">subprocess/subprocess_posix</a>
   </dl>
 </div>
 <div class="section" id="19">
   <h1><a class="toc-backref" href="#19">Exports</a></h1>
   <dl class="item">
-    <a href="subprocess/subprocess_win.html#hasDataStdout,Subprocess"><span class="Identifier">hasDataStdout</span></a>, <a href="subprocess/subprocess_win.html#terminate,Subprocess,bool"><span class="Identifier">terminate</span></a>, <a href="subprocess/subprocess_win.html#readAllStdout,Subprocess,int"><span class="Identifier">readAllStdout</span></a>, <a href="subprocess/subprocess_win.html#readStdout,Subprocess,int"><span class="Identifier">readStdout</span></a>, <a href="subprocess/subprocess_win.html#closeStdin,Subprocess"><span class="Identifier">closeStdin</span></a>, <a href="subprocess/subprocess_win.html#IOHandle"><span class="Identifier">IOHandle</span></a>, <a href="subprocess/subprocess_win.html#close,Subprocess"><span class="Identifier">close</span></a>, <a href="subprocess/subprocess_win.html#SubprocessOptions"><span class="Identifier">SubprocessOptions</span></a>, <a href="subprocess/subprocess_win.html#ProcessPID"><span class="Identifier">ProcessPID</span></a>, <a href="subprocess/subprocess_win.html#readStderr,Subprocess,int"><span class="Identifier">readStderr</span></a>, <a href="subprocess/subprocess_win.html#SubprocessObj"><span class="Identifier">SubprocessObj</span></a>, <a href="subprocess/subprocess_win.html#write,Subprocess,string"><span class="Identifier">write</span></a>, <a href="subprocess/subprocess_win.html#isRunning,Subprocess"><span class="Identifier">isRunning</span></a>, <a href="subprocess/subprocess_win.html#Subprocess"><span class="Identifier">Subprocess</span></a>, <a href="subprocess/subprocess_win.html#wait,Subprocess"><span class="Identifier">wait</span></a>, <a href="subprocess/subprocess_win.html#=destroy,SubprocessObj"><span class="Identifier">=destroy</span></a>, <a href="subprocess/subprocess_win.html#startSubprocess,string,openArray[string],SubprocessOptions"><span class="Identifier">startSubprocess</span></a>, <a href="subprocess/subprocess_win.html#hasDataStderr,Subprocess"><span class="Identifier">hasDataStderr</span></a>, <a href="subprocess/subprocess_win.html#readAllStderr,Subprocess,int"><span class="Identifier">readAllStderr</span></a>
+    <a href="subprocess/subprocess_posix.html#hasDataStdout,Subprocess"><span class="Identifier">hasDataStdout</span></a>, <a href="subprocess/subprocess_posix.html#terminate,Subprocess,bool"><span class="Identifier">terminate</span></a>, <a href="subprocess/subprocess_posix.html#readAllStdout,Subprocess,int"><span class="Identifier">readAllStdout</span></a>, <a href="subprocess/subprocess_posix.html#Handle"><span class="Identifier">Handle</span></a>, <a href="subprocess/subprocess_posix.html#closeStdin,Subprocess"><span class="Identifier">closeStdin</span></a>, <a href="subprocess/subprocess_posix.html#readStdout,Subprocess,int"><span class="Identifier">readStdout</span></a>, <a href="subprocess/subprocess_posix.html#IOHandle"><span class="Identifier">IOHandle</span></a>, <a href="subprocess/subprocess_posix.html#close,Subprocess"><span class="Identifier">close</span></a>, <a href="subprocess/subprocess_posix.html#SubprocessOptions"><span class="Identifier">SubprocessOptions</span></a>, <a href="subprocess/subprocess_posix.html#ProcessPID"><span class="Identifier">ProcessPID</span></a>, <a href="subprocess/subprocess_posix.html#readStderr,Subprocess,int"><span class="Identifier">readStderr</span></a>, <a href="subprocess/subprocess_posix.html#SubprocessObj"><span class="Identifier">SubprocessObj</span></a>, <a href="subprocess/subprocess_posix.html#write,Subprocess,string"><span class="Identifier">write</span></a>, <a href="subprocess/subprocess_posix.html#isRunning,Subprocess"><span class="Identifier">isRunning</span></a>, <a href="subprocess/subprocess_posix.html#Subprocess"><span class="Identifier">Subprocess</span></a>, <a href="subprocess/subprocess_posix.html#wait,Subprocess"><span class="Identifier">wait</span></a>, <a href="subprocess/subprocess_posix.html#=destroy,SubprocessObj"><span class="Identifier">=destroy</span></a>, <a href="subprocess/subprocess_posix.html#startSubprocess,string,openArray[string],SubprocessOptions"><span class="Identifier">startSubprocess</span></a>, <a href="subprocess/subprocess_posix.html#hasDataStderr,Subprocess"><span class="Identifier">hasDataStderr</span></a>, <a href="subprocess/subprocess_posix.html#readAllStderr,Subprocess,int"><span class="Identifier">readAllStderr</span></a>
   </dl>
 </div>
 
@@ -113,7 +146,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-17 03:48:19 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2025-12-17 03:53:32 UTC</small>
       </div>
     </div>
   </div>
